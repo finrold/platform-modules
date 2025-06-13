@@ -35,6 +35,11 @@ variable "enable_fargate" {
   default = false
 }
 
+variable "enable_fargate_profile" {
+  type    = bool
+  default = false
+}
+
 variable "instance_types" {
   type        = list(string)
   default     = ["t3.medium"]
