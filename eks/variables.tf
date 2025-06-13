@@ -27,12 +27,12 @@ variable "fargate_pod_execution_role_arn" {
 
 variable "enable_node_group" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "enable_fargate" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "instance_types" {

@@ -31,7 +31,7 @@ resource "aws_eks_node_group" "this" {
 }
 
 resource "aws_eks_fargate_profile" "this" {
-  count = var.enable_fargate ? 1 : 0
+  count = var.enable_fargate && var.fargate_pod_execution_role_arn != "" ? 1 : 0
 
   cluster_name           = aws_eks_cluster.this.name
   fargate_profile_name   = "${var.cluster_name}-fargate"
@@ -48,3 +48,4 @@ resource "aws_eks_fargate_profile" "this" {
 
   depends_on = [aws_eks_cluster.this]
 }
+
