@@ -14,6 +14,8 @@ resource "aws_eks_cluster" "this" {
 }
 
 resource "aws_eks_node_group" "this" {
+  count = var.enable_node_group ? 1 : 0
+
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "${var.cluster_name}-ng"
   node_role_arn   = var.node_role_arn
@@ -25,5 +27,24 @@ resource "aws_eks_node_group" "this" {
     min_size     = 1
   }
 
-  instance_types = ["t3.medium"]
+  instance_types = var.instance_types
+}
+
+resource "aws_eks_fargate_profile" "this" {
+  count = var.enable_fargate ? 1 : 0
+
+  cluster_name           = aws_eks_cluster.this.name
+  fargate_profile_name   = "${var.cluster_name}-fargate"
+  pod_execution_role_arn = var.fargate_pod_execution_role_arn
+  subnet_ids             = var.subnet_ids
+
+  selector {
+    namespace = "default"
+  }
+
+  selector {
+    namespace = "kube-system"
+  }
+
+  depends_on = [aws_eks_cluster.this]
 }
