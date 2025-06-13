@@ -30,6 +30,7 @@ module "vpc" {
 
 Exemplo de uso do módulo `eks`:
 
+```hcl
 module "eks" {
   source = "github.com/finrold/platform-modules//eks?ref=main"
 
